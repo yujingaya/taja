@@ -12,7 +12,7 @@
         class="input is-large"
         :class="{
           'is-success': isInputRight,
-          'is-danger': isEnterWrong,
+          'is-danger': isInputWrong,
         }"
         type="text"
         placeholder="여기에 연습하세요.">
@@ -37,7 +37,16 @@ import { debounce, updateStorage } from '@/utils';
 
 export default defineComponent({
   name: 'HelloWorld',
-  props: ['word', 'prevCount'],
+  props: {
+    word: {
+      type: String,
+      required: true,
+    },
+    prevCount: {
+      type: Number,
+      required: true,
+    },
+  },
   emits: ['end'],
   setup(prop) {
     const count = ref(+prop.prevCount);
@@ -46,6 +55,9 @@ export default defineComponent({
 
     const isEnterWrong = ref(false);
     const clearIsEnterWrong = debounce(() => { isEnterWrong.value = false; });
+
+    const isInputWrong = computed(() => isEnterWrong.value
+      || !prop.word.startsWith(input.value.slice(0, -1)));
 
     const enter = () => {
       if (isInputRight.value) {
@@ -59,7 +71,7 @@ export default defineComponent({
     };
 
     return {
-      input, count, isEnterWrong, isInputRight, enter,
+      input, count, isInputWrong, isInputRight, enter,
     };
   },
 });
