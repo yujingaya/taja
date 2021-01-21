@@ -14,7 +14,7 @@
         </div>
       </div>
     </section>
-    <div v-if="state.kind === 'choose'" class="container mt-6 mb-6">
+    <div class="container mt-6 mb-6">
       <div class="field is-grouped is-grouped-multiline">
         <div class="control" v-for="word in Object.keys(wordsCounter)" :key="word">
           <div
@@ -38,11 +38,10 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent, reactive, ref, Ref,
-} from 'vue';
+import { defineComponent, ref, Ref } from 'vue';
 import Choose from '@/components/Choose.vue';
 import Practice from '@/components/Practice.vue';
+import { readonlyStorage, updateStorage } from '@/utils';
 
 type Choose = {
   kind: 'choose';
@@ -63,14 +62,7 @@ export default defineComponent({
     const choose: Choose = { kind: 'choose' };
     const state: Ref<State> = ref(choose);
 
-    const wordsCounter = reactive(
-      Object.fromEntries(
-        Array.from(localStorage, (_, i) => {
-          const key = localStorage.key(i) as string;
-          return [key, localStorage.getItem(key)];
-        }),
-      ),
-    );
+    const wordsCounter = readonlyStorage;
 
     const chooseWord = (word: string) => {
       state.value = {
@@ -80,11 +72,10 @@ export default defineComponent({
       };
     };
 
-    const endPractice = (count: string) => {
+    const endPractice = (count: number) => {
       if (state.value.kind === 'practice') {
         const { word } = state.value;
-        localStorage.setItem(word, count);
-        wordsCounter[word] = count;
+        updateStorage(word, count);
       }
 
       state.value = choose;

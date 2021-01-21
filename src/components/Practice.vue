@@ -33,7 +33,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, ref } from 'vue';
-import { debounce } from '@/utils';
+import { debounce, updateStorage } from '@/utils';
 
 export default defineComponent({
   name: 'HelloWorld',
@@ -51,6 +51,7 @@ export default defineComponent({
       if (isInputRight.value) {
         count.value += 1;
         input.value = '';
+        updateStorage(prop.word, count.value);
       } else {
         isEnterWrong.value = true;
         clearIsEnterWrong();
