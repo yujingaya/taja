@@ -17,7 +17,9 @@
     <div v-if="state.kind === 'choose'" class="container mt-6 mb-6">
       <div class="field is-grouped is-grouped-multiline">
         <div class="control" v-for="word in Object.keys(wordsCounter)" :key="word">
-          <div class="tags has-addons are-medium">
+          <div
+            @click="chooseWord(word)"
+            class="tags has-addons are-medium">
             <span class="tag is-info">{{ word }}</span>
             <span class="tag">{{ wordsCounter[word] }}</span>
           </div>

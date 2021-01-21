@@ -59,4 +59,8 @@ export default defineComponent({
 p {
   padding: 0 1.125rem;
 }
+
+button {
+  margin-left: 1.125rem;
+}
 </style>
