@@ -29,7 +29,7 @@ export default defineComponent({
   setup(prop, context) {
     const word = ref('');
     const chooseWord = (s: string) => {
-      if (s !== '') {
+      if (s.trim() !== '') {
         context.emit('choose', s);
       }
     };
