@@ -6,9 +6,11 @@
   <div class="field">
     <div class="control">
       <input
-        v-model="input"
+        :value="input"
+        @input="input = $event.target.value"
         @keydown.enter="enter"
         class="input is-large"
+        :class="{ 'is-success': isRightInput }"
         type="text"
         placeholder="여기에 연습하세요.">
     </div>
@@ -27,7 +29,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { computed, defineComponent, ref } from 'vue';
 
 export default defineComponent({
   name: 'HelloWorld',
@@ -37,15 +39,19 @@ export default defineComponent({
     const input = ref('');
     const count = ref(+prop.prevCount);
 
+    const isRightInput = computed(() => prop.word === input.value.trim());
+
     const enter = () => {
-      if (prop.word === input.value.trim()) {
+      if (isRightInput.value) {
         count.value += 1;
       }
 
       input.value = '';
     };
 
-    return { input, count, enter };
+    return {
+      input, count, isRightInput, enter,
+    };
   },
 });
 </script>
