@@ -13,7 +13,7 @@
         placeholder="여기에 연습하세요.">
     </div>
   </div>
-  <p>지금까지 <strong>{{ count }}</strong>번 성공했습니다.</p>
+  <p>지금까지 <strong>{{ count }}</strong>번 연습했습니다.</p>
   <div class="field mt-6">
     <div class="control">
       <button
@@ -38,7 +38,7 @@ export default defineComponent({
     const count = ref(+prop.prevCount);
 
     const enter = () => {
-      if (prop.word === input.value) {
+      if (prop.word === input.value.trim()) {
         count.value += 1;
       }
 
