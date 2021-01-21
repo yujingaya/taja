@@ -10,7 +10,10 @@
         @input="input = $event.target.value"
         @keydown.enter="enter"
         class="input is-large"
-        :class="{ 'is-success': isRightInput }"
+        :class="{
+          'is-success': isInputRight,
+          'is-danger': isEnterWrong,
+        }"
         type="text"
         placeholder="여기에 연습하세요.">
     </div>
@@ -30,27 +33,32 @@
 
 <script lang="ts">
 import { computed, defineComponent, ref } from 'vue';
+import { debounce } from '@/utils';
 
 export default defineComponent({
   name: 'HelloWorld',
   props: ['word', 'prevCount'],
   emits: ['end'],
   setup(prop) {
-    const input = ref('');
     const count = ref(+prop.prevCount);
+    const input = ref('');
+    const isInputRight = computed(() => prop.word === input.value.trim());
 
-    const isRightInput = computed(() => prop.word === input.value.trim());
+    const isEnterWrong = ref(false);
+    const clearIsEnterWrong = debounce(() => { isEnterWrong.value = false; });
 
     const enter = () => {
-      if (isRightInput.value) {
+      if (isInputRight.value) {
         count.value += 1;
+        input.value = '';
+      } else {
+        isEnterWrong.value = true;
+        clearIsEnterWrong();
       }
-
-      input.value = '';
     };
 
     return {
-      input, count, isRightInput, enter,
+      input, count, isEnterWrong, isInputRight, enter,
     };
   },
 });
@@ -60,6 +68,10 @@ export default defineComponent({
 .word-to-practice {
   font-size: 1.5rem;
   padding: 0.5em 0.75em;
+}
+
+input {
+  transition: all 1s ease;
 }
 
 p {
