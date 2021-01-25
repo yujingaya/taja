@@ -29,7 +29,7 @@ export default {
   border-radius: 4px;
 
   background-color: #ececec;
-  box-shadow: 0 2px 2px 0 hsla(0, 0, 50, 0.4);
+  box-shadow: 0 2px 2px 0 hsla(0, 0%, 50%, 0.4);
   .class-title {
     color: #363636;
     font-weight: bold;
