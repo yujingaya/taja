@@ -1,14 +1,14 @@
 <template>
 <Navbar/>
 <div class="category"
-  v-for="{ title, classes } in CATEGORIES"
+  v-for="{ title, classes } in categories"
   :key="`category-${title}`">
   <div class="category-title">
     {{ title }}
   </div>
   <div class="category-list">
     <div class="class-container"
-      v-for="{ title, keys, name } in classes"
+      v-for="{ title, keys, name, isReady } in classes"
       :key="`class-${title}`"
       >
       <Class
@@ -16,7 +16,7 @@
         @click="$router.push({ name })"
         :title="title"
         :keys="keys"
-        :isReady="undefined !== name"
+        :isReady="isReady"
       />
     </div>
   </div>
@@ -28,81 +28,14 @@
 import Navbar from '@/components/Navbar.vue';
 import Class from '@/components/Class.vue';
 import Footer from '@/components/Footer.vue';
-
-const CATEGORIES = [
-  {
-    title: '기초',
-    classes: [
-      {
-        title: '띄우기, 줄 바꾸기, 지우기',
-        keys: ['space', 'enter', 'delete'],
-      },
-    ],
-  },
-  {
-    title: '단어',
-    classes: [
-      {
-        title: '제자리',
-        keys: 'ㅁㄴㅇㄹㅎㅗㅓㅏㅣ'.split(''),
-        name: '제자리 단어 연습',
-      },
-      {
-        title: '윗줄 자음',
-        keys: 'ㅂㅈㄷㄱㅅ'.split(''),
-        name: '윗줄 자음 단어 연습',
-      },
-      {
-        title: '아랫줄 자음',
-        keys: 'ㅋㅌㅊㅍ'.split(''),
-        name: '아랫줄 자음 단어 연습',
-      },
-      {
-        title: '검지로 치는 모음',
-        keys: 'ㅛㅕㅗㅓㅠㅜㅡ'.split(''),
-        name: '검지로 치는 모음 연습',
-      },
-      {
-        title: '나머지 모음',
-        keys: 'ㅑㅏㅐㅣㅔ'.split(''),
-        name: '나머지 모음 연습',
-      },
-    ],
-  },
-  {
-    title: '문장',
-    classes: [
-      {
-        title: '문장 부호',
-        keys: '`190,./'.split(''),
-      },
-      {
-        title: '문장',
-        keys: [],
-      },
-      {
-        title: '글',
-        keys: [],
-      },
-    ],
-  },
-  {
-    title: '게임',
-    classes: [
-      {
-        title: '땅따먹기',
-        keys: [],
-      },
-    ],
-  },
-];
+import { categories } from '@/classes';
 
 export default {
   name: 'Home',
   components: { Navbar, Class, Footer },
   setup() {
     return {
-      CATEGORIES,
+      categories,
     };
   },
 };
