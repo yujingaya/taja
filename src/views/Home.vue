@@ -13,7 +13,7 @@
       >
       <Class
         class="class"
-        @click="$router.push({ name })"
+        @click="isReady && $router.push({ name })"
         :title="title"
         :keys="keys"
         :isReady="isReady"
